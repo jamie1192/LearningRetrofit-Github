@@ -7,10 +7,14 @@ package com.example.jamie1192.retrofit_github.api.model;
 public class GitHubRepo {
 
     private String name;
+    private String description;
 
     public String getName() {
         return name;
     }
 
 
+    public String getDescription() {
+        return description;
+    }
 }

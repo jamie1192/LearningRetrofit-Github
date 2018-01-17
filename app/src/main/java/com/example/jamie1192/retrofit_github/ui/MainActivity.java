@@ -2,6 +2,8 @@ package com.example.jamie1192.retrofit_github.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,15 +22,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listView;
+    RecyclerView recyclerView;
+    GitHubRepoAdapter adapter;
+
+//    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerView = (RecyclerView) findViewById(R.id.repoRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        listView = (ListView) findViewById(R.id.pagination_list);
+//        adapter = new GitHubRepoAdapter(ada)
+
+//        listView = (ListView) findViewById(R.id.pagination_list);
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
@@ -45,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<GitHubRepo>> call, Response<List<GitHubRepo>> response) {
                 List<GitHubRepo> repos = response.body();
 
-                listView.setAdapter(new GitHubRepoAdapter(MainActivity.this, repos));
+                adapter = new GitHubRepoAdapter(MainActivity.this, repos);
+
+                recyclerView.setAdapter(adapter);
+//                adapter = new GitHubRepoAdapter(this, repos);
             }
 
             @Override
